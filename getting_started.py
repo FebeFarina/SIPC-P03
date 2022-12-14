@@ -68,23 +68,36 @@ with mp_hands.Hands(
       # cv2.putText(image, "hello", (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
 
       # See other OpenCV functions to draw a line or a rectangle:
-      cv2.line(image, (int(lm[tipIds[0]].x*w), int(lm[tipIds[0]].y*h)), (int(lm[tipIds[2]].x*w),int(lm[tipIds[2]].y*h)), (0,0,255), 1) 
-      cv2.line(image, (int(lm[tipIds[0]].x*w), int(lm[tipIds[0]].y*h)), (int(lm[tipIds[3]].x*w),int(lm[tipIds[3]].y*h)), (0,0,255), 1) 
+      #cv2.line(image, (int(lm[tipIds[0]].x*w), int(lm[tipIds[0]].y*h)), (int(lm[tipIds[2]].x*w),int(lm[tipIds[2]].y*h)), (0,0,255), 1) 
+      #cv2.line(image, (int(lm[tipIds[0]].x*w), int(lm[tipIds[0]].y*h)), (int(lm[tipIds[3]].x*w),int(lm[tipIds[3]].y*h)), (0,0,255), 1) 
       # cv2.rectangle(image, start_point (top-left), end_point (bottom-right), color, thickness)
       #cv2.putText(image, str(sum(fingersUp)), (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
+      
       for i in range(4):
         if lm[tipIds[i+1]].y - lm[tipIds[i+1]-1].y < 0:
           fingersUp[i+1] = 1
         else: 
           fingersUp[i+1] = 0
-      if lm[tipIds[0]].x - lm[tipIds[0]-1].x < 0:
+
+      thumbRight = False
+      if lm[tipIds[0]].x > lm[tipIds[4]].x:
+        thumbRight = True
+
+      if lm[tipIds[0]].x - lm[tipIds[0]-1].x < 0 and not thumbRight:
+        fingersUp[0] = 1
+      elif lm[tipIds[0]].x - lm[tipIds[0]-1].x > 0 and thumbRight:
         fingersUp[0] = 1
       else: 
         fingersUp[0] = 0
+
       distance1 = [lm[tipIds[0]].x*w - lm[tipIds[0]].y*h, lm[tipIds[2]].x*w - lm[tipIds[2]].y*h]
       distance2 = [lm[tipIds[0]].x*w - lm[tipIds[0]].y*h, lm[tipIds[3]].x*w - lm[tipIds[3]].y*h]
       if distance1[0] * distance1[1] > 0 and distance2[0] * distance2[1] > 0 and fingersUp[1] and fingersUp[4] and not fingersUp[2] and not fingersUp[3]:
         cv2.putText(image, "kon", (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
+        image = cv2.imread('Zorro_anime.png')
+        cv2.imshow('image window', image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
       else:
         cv2.putText(image, str(sum(fingersUp)), (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
 
