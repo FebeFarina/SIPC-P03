@@ -80,6 +80,7 @@ with mp_hands.Hands(
           fingersUp[i+1] = 0
 
       thumbRight = False
+      konShow = False
       if lm[tipIds[0]].x > lm[tipIds[4]].x:
         thumbRight = True
 
@@ -93,12 +94,14 @@ with mp_hands.Hands(
       distance1 = [lm[tipIds[0]].x*w - lm[tipIds[0]].y*h, lm[tipIds[2]].x*w - lm[tipIds[2]].y*h]
       distance2 = [lm[tipIds[0]].x*w - lm[tipIds[0]].y*h, lm[tipIds[3]].x*w - lm[tipIds[3]].y*h]
       if distance1[0] * distance1[1] > 0 and distance2[0] * distance2[1] > 0 and fingersUp[1] and fingersUp[4] and not fingersUp[2] and not fingersUp[3]:
-        cv2.putText(image, "kon", (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
-        image = cv2.imread('Zorro_anime.png')
-        cv2.imshow('image window', image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        if not konShow:
+          konShow = True
+          cv2.putText(image, "kon", (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
+          image = cv2.imread('Zorro_anime.png')
+          cv2.imshow('image window', image)
       else:
+        konShow = False
+        cv2.destroyAllWindows()
         cv2.putText(image, str(sum(fingersUp)), (20,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
 
     cv2.imshow('MediaPipe Hands', image)    
