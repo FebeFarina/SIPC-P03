@@ -101,12 +101,12 @@ with mp_hands.Hands(
         fingersUp[0] = 0
 
       #Mostrar Kon
-      if fingersUp == [1,1,0,0,1] and not konShow:
+      if fingersUp == [1,1,0,0,1] and not konShow and paintMode:
         konShow = True
         #cv2.putText(image, "kon", (30,60),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,0), thickness = 5)
-        #kon = cv2.imread('Zorro_anime.png')
-        #cv2.imshow('kon', kon)        
-        #imgCanvas.fill(0)
+        kon = cv2.imread('Zorro_anime.png')
+        cv2.imshow('kon', kon)        
+        imgCanvas.fill(0)
       else:
         konShow = False
         kon = cv2.imread('Zorro_anime.png')
